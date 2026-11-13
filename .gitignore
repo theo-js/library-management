@@ -1,0 +1,82 @@
+
+# ==============================
+# .NET / MSBuild
+# ==============================
+
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+[Ll]og/
+[Ll]ogs/
+
+# ==============================
+# Visual Studio
+# ==============================
+
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ==============================
+# JetBrains Rider
+# ==============================
+
+.idea/
+*.sln.iml
+
+# ==============================
+# VS Code
+# ==============================
+
+.vscode/
+
+# ==============================
+# NuGet
+# ==============================
+
+*.nupkg
+*.snupkg
+**/packages/*
+
+# ==============================
+# Tests / Coverage
+# ==============================
+
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+coverage/
+coverage.*
+CodeCoverage/
+
+# ==============================
+# Environment / Secrets
+# ==============================
+
+.env
+.env.*
+!.env.example
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json.example
+
+# ==============================
+# Database files
+# ==============================
+
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+
+# ==============================
+# OS
+# ==============================
+
+.DS_Store
+Thumbs.db
+desktop.ini
