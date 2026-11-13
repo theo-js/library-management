@@ -1,9 +1,10 @@
 using Library.Application.Abstractions.Persistence;
 using Library.Domain.Entities;
+using Library.Infrastructure.Persistence;
 using Library.Infrastructure.Persistence.Mappers;
 using Microsoft.EntityFrameworkCore;
 
-namespace Library.Infrastructure.Persistence.Repositories;
+namespace Library.Infrastructure.Repositories;
 
 public class BookRepository(AppDbContext dbContext) : IBookRepository
 {

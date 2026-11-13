@@ -1,4 +1,6 @@
+using Library.Application.Abstractions.Persistence;
 using Library.Infrastructure.Persistence;
+using Library.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +18,8 @@ public static class DependencyInjection
             (options) =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
         );
+        services.AddScoped<IBookRepository, BookRepository>();
+
         return services;
     }
 }
