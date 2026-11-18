@@ -1,6 +1,18 @@
-@Library.Http_HostAddress = http://localhost:5167
+@host = http://localhost:5167
 
-GET {{Library.Http_HostAddress}}/weatherforecast/
+### Get all books with pagination
+GET {{host}}/books
 Accept: application/json
+X-Page: 1
+X-Page-Size: 10
 
-###
+
+### Add new book
+POST {{host}}/books
+Content-Type: application/json
+
+{
+    "title": "Les Misérables",
+    "author": "Victor Hugo",
+    "isbnNumber": "2010008995"
+}

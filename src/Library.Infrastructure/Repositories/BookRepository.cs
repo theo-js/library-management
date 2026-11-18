@@ -15,9 +15,15 @@ public class BookRepository(AppDbContext dbContext) : IBookRepository
             .Select(book => book.ToDomain())
             .FirstOrDefaultAsync(cancellationToken);
 
-    public async Task<IReadOnlyCollection<Book>> GetAllAsync(CancellationToken cancellationToken) =>
+    public async Task<IReadOnlyCollection<Book>> GetAllAsync(
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken
+    ) =>
         await dbContext
             .Books.OrderBy(book => book.Id)
+            .Skip(pageSize * (page - 1))
+            .Take(pageSize)
             .Include(book => book.Copies)
             .Select(book => book.ToDomain())
             .ToListAsync(cancellationToken);

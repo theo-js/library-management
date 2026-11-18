@@ -18,6 +18,7 @@ public static class DependencyInjection
             (options) =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
         );
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IBookRepository, BookRepository>();
 
         return services;
