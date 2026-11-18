@@ -1,7 +1,7 @@
 @host = http://localhost:5167
 
 ### Get all books with pagination
-GET {{host}}/books
+GET {{host}}/books?s=lemony&c=author
 Accept: application/json
 X-Page: 1
 X-Page-Size: 10

@@ -8,9 +8,19 @@ public sealed record class SearchBooksQuery
     public int Page { get; set; }
     public int PageSize { get; set; }
 
-    public SearchBooksQuery(int? page, int? pageSize)
+    public string? SearchTerm;
+    public SearchCriteria? SearchCriteria;
+
+    public SearchBooksQuery(
+        int? page,
+        int? pageSize,
+        string? searchTerm,
+        SearchCriteria? searchCriteria
+    )
     {
         Page = page ?? DEFAULT_PAGE;
         PageSize = pageSize ?? DEFAULT_PAGE_SIZE;
+        SearchTerm = searchTerm;
+        SearchCriteria = searchCriteria;
     }
 };

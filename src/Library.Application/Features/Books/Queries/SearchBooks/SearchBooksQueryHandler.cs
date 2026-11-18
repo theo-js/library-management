@@ -16,17 +16,28 @@ public class SearchBooksQueryHandler(
     )
     {
         await validator.ValidateAndThrowAsync(query, cancellationToken: ct);
+
+        var bookSearchParameters =
+            !string.IsNullOrEmpty(query.SearchTerm) && query.SearchCriteria is not null
+                ? new BookSearchParameters(query.SearchTerm, query.SearchCriteria.Value)
+                : null;
+
         return
         [
-            .. (await bookRepository.GetAllAsync(query.Page, query.PageSize, ct)).Select(
-                b => new BookDto(
-                    b.Id,
-                    b.Title,
-                    b.Author,
-                    b.IsbnNumber.Value,
-                    [.. b.Copies.Select(c => new BookCopyDto(c.Id))]
+            .. (
+                await bookRepository.GetAllAsync(
+                    query.Page,
+                    query.PageSize,
+                    bookSearchParameters,
+                    ct
                 )
-            ),
+            ).Select(b => new BookDto(
+                b.Id,
+                b.Title,
+                b.Author,
+                b.IsbnNumber.Value,
+                [.. b.Copies.Select(c => new BookCopyDto(c.Id))]
+            )),
         ];
     }
 }
