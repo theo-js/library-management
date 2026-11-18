@@ -1,5 +1,6 @@
 using Library.Application.Features.Books.Commands.AddBook;
 using Library.Application.Features.Books.Dtos;
+using Library.Application.Features.Books.Queries.GetBookById;
 using Library.Application.Features.Books.Queries.SearchBooks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace Library.Http.Controllers.Books;
 [ApiController]
 public class BooksController(
     SearchBooksQueryHandler searchBooksQueryHandler,
+    GetBookByIdQueryHandler getBookByIdQueryHandler,
     AddBookCommandHandler addBookCommandHandler
 ) : ControllerBase
 {
@@ -33,8 +35,19 @@ public class BooksController(
     }
 
     [HttpGet]
-    [Route("/{bookId:Guid}")]
-    public async Task GetBookDetails(Guid bookId) { }
+    [Route("{bookId:Guid}")]
+    public async Task<ActionResult<BookDto>> GetBookDetails(
+        Guid bookId,
+        CancellationToken cancellationToken
+    )
+    {
+        var bookResponse = await getBookByIdQueryHandler.Handle(new(bookId), cancellationToken);
+
+        if (bookResponse is null)
+            return NotFound();
+
+        return Ok(bookResponse);
+    }
 
     [HttpPost]
     public Task<BookDto> AddBook([FromBody] AddBookCommand command, CancellationToken ct)

@@ -6,6 +6,10 @@ Accept: application/json
 X-Page: 1
 X-Page-Size: 10
 
+### Get book by id
+GET {{host}}/books/73fdb142-b83b-42b2-901b-0602bb348718
+Accept: application/json
+
 
 ### Add new book
 POST {{host}}/books

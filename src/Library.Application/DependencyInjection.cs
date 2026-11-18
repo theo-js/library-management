@@ -1,5 +1,6 @@
 using FluentValidation;
 using Library.Application.Features.Books.Commands.AddBook;
+using Library.Application.Features.Books.Queries.GetBookById;
 using Library.Application.Features.Books.Queries.SearchBooks;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +12,7 @@ public static class DependencyInjection
     {
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
         services.AddScoped<SearchBooksQueryHandler>();
+        services.AddScoped<GetBookByIdQueryHandler>();
         services.AddScoped<AddBookCommandHandler>();
         return services;
     }

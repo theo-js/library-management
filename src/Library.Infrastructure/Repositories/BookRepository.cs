@@ -9,12 +9,11 @@ namespace Library.Infrastructure.Repositories;
 
 public class BookRepository(AppDbContext dbContext) : IBookRepository
 {
-    public async Task<Book?> GetByIdAsync(Guid bookId, CancellationToken cancellationToken) =>
-        await dbContext
-            .Books.Where(book => book.Id == bookId)
-            .Include(book => book.Copies)
-            .Select(book => book.ToDomain())
-            .FirstOrDefaultAsync(cancellationToken);
+    public async Task<Book?> GetByIdAsync(Guid bookId, CancellationToken cancellationToken)
+    {
+        var bookEntity = await dbContext.Books.FindAsync(bookId, cancellationToken);
+        return bookEntity?.ToDomain() ?? null;
+    }
 
     public async Task<IReadOnlyCollection<Book>> GetAllAsync(
         int page,
