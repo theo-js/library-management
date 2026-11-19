@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Library.Infrastructure.Persistence.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace Library.Infrastructure.Persistence.Entities;
 
 [Table("Users")]
-[Index(nameof(EmailAddress), IsUnique = true)]
 public class UserEntity : SoftDeletableEntity
 {
     public Guid Id { get; set; }

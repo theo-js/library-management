@@ -11,5 +11,6 @@ public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
     {
         builder.HasKey(u => u.Id);
         builder.ConfigureSoftDeletable();
+        builder.HasIndex(b => b.EmailAddress).IsUnique().HasFilter("[DeletedAt] IS NULL");
     }
 }

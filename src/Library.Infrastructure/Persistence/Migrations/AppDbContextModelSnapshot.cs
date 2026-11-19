@@ -149,7 +149,8 @@ namespace Library.Infrastructure.Persistence.Migrations
                     b.HasIndex("DeletedByUserId");
 
                     b.HasIndex("IsbnNumber")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[DeletedAt] IS NULL");
 
                     b.HasIndex("UpdatedByUserId");
 
@@ -202,7 +203,8 @@ namespace Library.Infrastructure.Persistence.Migrations
                     b.HasIndex("DeletedByUserId");
 
                     b.HasIndex("EmailAddress")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[DeletedAt] IS NULL");
 
                     b.HasIndex("UpdatedByUserId");
 
