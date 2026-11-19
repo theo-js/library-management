@@ -13,4 +13,5 @@ public interface IBookRepository
     );
     public Task<Book?> GetByIdAsync(Guid BookId, CancellationToken cancellationToken);
     public void Add(Book book);
+    public Task<bool> SoftDeleteAsync(Guid bookId, CancellationToken cancellationToken);
 }

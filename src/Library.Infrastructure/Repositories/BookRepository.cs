@@ -54,4 +54,15 @@ public class BookRepository(AppDbContext dbContext) : IBookRepository
     {
         dbContext.Books.Add(book.ToPersistence());
     }
+
+    public async Task<bool> SoftDeleteAsync(Guid bookId, CancellationToken ct)
+    {
+        var bookEntity = await dbContext.Books.FindAsync(bookId, ct);
+        if (bookEntity is null)
+            return false;
+
+        // TODO implement auth & current user service
+        bookEntity.SoftDelete(Guid.Parse("4fc189ff-e6a2-4d7e-917b-4991b8797ed6"));
+        return true;
+    }
 }

@@ -1,7 +1,8 @@
 @host = http://localhost:5167
 
 ### Get all books with pagination
-GET {{host}}/books?s=lemony&c=author
+# GET {{host}}/books?s=lemony&c=author
+GET {{host}}/books
 Accept: application/json
 X-Page: 1
 X-Page-Size: 10
@@ -20,3 +21,7 @@ Content-Type: application/json
     "author": "Victor Hugo",
     "isbnNumber": "2010008995"
 }
+
+### Delete a book (soft delete)
+DELETE {{host}}/books/a4768219-ed5b-419e-b5d3-53d33cc68ff1
+

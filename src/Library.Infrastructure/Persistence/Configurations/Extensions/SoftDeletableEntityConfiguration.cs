@@ -20,6 +20,8 @@ public static class SoftDeletableEntityConfiguration
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasQueryFilter(sde => !sde.DeletedAt.HasValue);
+
         return builder;
     }
 }

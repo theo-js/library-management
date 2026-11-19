@@ -11,5 +11,6 @@ public class BookConfiguration : IEntityTypeConfiguration<BookEntity>
     {
         builder.HasKey(b => b.Id);
         builder.ConfigureSoftDeletable();
+        builder.HasIndex(b => b.IsbnNumber).IsUnique().HasFilter("[DeletedAt] IS NULL");
     }
 }

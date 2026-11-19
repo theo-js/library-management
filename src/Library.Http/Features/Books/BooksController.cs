@@ -1,4 +1,5 @@
 using Library.Application.Features.Books.Commands.AddBook;
+using Library.Application.Features.Books.Commands.DeleteBook;
 using Library.Application.Features.Books.Dtos;
 using Library.Application.Features.Books.Queries.GetBookById;
 using Library.Application.Features.Books.Queries.SearchBooks;
@@ -11,7 +12,8 @@ namespace Library.Http.Controllers.Books;
 public class BooksController(
     SearchBooksQueryHandler searchBooksQueryHandler,
     GetBookByIdQueryHandler getBookByIdQueryHandler,
-    AddBookCommandHandler addBookCommandHandler
+    AddBookCommandHandler addBookCommandHandler,
+    DeleteBookCommandHandler deleteBookCommandHandler
 ) : ControllerBase
 {
     [HttpGet]
@@ -53,5 +55,18 @@ public class BooksController(
     public Task<BookDto> AddBook([FromBody] AddBookCommand command, CancellationToken ct)
     {
         return addBookCommandHandler.Handle(command, ct);
+    }
+
+    [HttpDelete]
+    [Route("{bookId:Guid}")]
+    public async Task<ActionResult> DeleteBook(Guid bookId, CancellationToken cancellationToken)
+    {
+        bool hasDeletedSuccessfully = await deleteBookCommandHandler.Handle(
+            new(bookId),
+            cancellationToken
+        );
+        if (!hasDeletedSuccessfully)
+            return NotFound();
+        return NoContent();
     }
 }
