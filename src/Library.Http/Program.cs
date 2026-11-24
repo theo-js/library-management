@@ -10,6 +10,13 @@ builder.Services.AddOpenApi();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        options.AddDefaultPolicy(policy => policy.AllowAnyOrigin());
+    }
+});
 
 var app = builder.Build();
 
@@ -20,6 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
+app.UseCors();
 
 app.UseHttpsRedirection();
 
