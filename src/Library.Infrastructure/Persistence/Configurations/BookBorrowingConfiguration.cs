@@ -11,11 +11,11 @@ public class BookBorrowingConfiguration : IEntityTypeConfiguration<BookBorrowing
     {
         builder.HasKey(bb => bb.Id);
 
-        // BookBorrowing 1 -> 1 BookCopy (required)
+        // BookBorrowing Many -> 1 BookCopy (required)
         builder
             .HasOne(bb => bb.BorrowedBookCopy)
-            .WithOne(bc => bc.CurrentBorrowing)
-            .HasForeignKey<BookBorrowingEntity>(bb => bb.BorrowedBookCopyId)
+            .WithMany(bc => bc.BorrowingsHistory)
+            .HasForeignKey(bb => bb.BorrowedBookCopyId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 

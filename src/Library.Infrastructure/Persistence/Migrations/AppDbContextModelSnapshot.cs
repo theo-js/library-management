@@ -54,8 +54,7 @@ namespace Library.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BorrowedBookCopyId")
-                        .IsUnique();
+                    b.HasIndex("BorrowedBookCopyId");
 
                     b.HasIndex("BorrowerId");
 
@@ -214,8 +213,8 @@ namespace Library.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Library.Infrastructure.Persistence.Entities.BookBorrowingEntity", b =>
                 {
                     b.HasOne("Library.Infrastructure.Persistence.Entities.BookCopyEntity", "BorrowedBookCopy")
-                        .WithOne("CurrentBorrowing")
-                        .HasForeignKey("Library.Infrastructure.Persistence.Entities.BookBorrowingEntity", "BorrowedBookCopyId")
+                        .WithMany("BorrowingsHistory")
+                        .HasForeignKey("BorrowedBookCopyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -326,7 +325,7 @@ namespace Library.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Library.Infrastructure.Persistence.Entities.BookCopyEntity", b =>
                 {
-                    b.Navigation("CurrentBorrowing");
+                    b.Navigation("BorrowingsHistory");
                 });
 
             modelBuilder.Entity("Library.Infrastructure.Persistence.Entities.BookEntity", b =>

@@ -9,5 +9,5 @@ public class BookCopyEntity : SoftDeletableEntity
     public Guid Id { get; set; }
     public Guid BookId { get; set; }
     public BookEntity? Book { get; set; }
-    public BookBorrowingEntity? CurrentBorrowing { get; set; }
+    public ICollection<BookBorrowingEntity> BorrowingsHistory { get; set; } = [];
 }
