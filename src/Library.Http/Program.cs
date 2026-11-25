@@ -1,5 +1,6 @@
 using Library.Application;
 using Library.Http;
+using Library.Http.Common.Headers;
 using Library.Http.Filters;
 using Library.Infrastructure;
 
@@ -19,6 +20,7 @@ builder
                 policy.AllowAnyOrigin();
                 policy.AllowAnyHeader();
                 policy.AllowAnyMethod();
+                policy.WithExposedHeaders(PaginationHeaders.All);
             });
         }
     })

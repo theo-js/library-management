@@ -1,4 +1,5 @@
 using Library.Application.Common.Interfaces;
+using Library.Http.Common.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -15,10 +16,10 @@ public class PaginationHeadersFilter : IAsyncResultFilter
         {
             var headers = context.HttpContext.Response.Headers;
 
-            headers["X-Total-Count"] = pagedResult.TotalCount.ToString();
-            headers["X-Total-Pages"] = pagedResult.TotalPages.ToString();
-            headers["X-Current-Page"] = pagedResult.Page.ToString();
-            headers["X-Page-Size"] = pagedResult.PageSize.ToString();
+            headers[PaginationHeaders.TotalCount] = pagedResult.TotalCount.ToString();
+            headers[PaginationHeaders.TotalPages] = pagedResult.TotalPages.ToString();
+            headers[PaginationHeaders.Page] = pagedResult.Page.ToString();
+            headers[PaginationHeaders.PageSize] = pagedResult.PageSize.ToString();
 
             context.Result = new ObjectResult(pagedResult.Items)
             {
