@@ -4,7 +4,6 @@ using Library.Application.Features.Books.Commands.DeleteBook;
 using Library.Application.Features.Books.Dtos;
 using Library.Application.Features.Books.Queries.GetBookById;
 using Library.Application.Features.Books.Queries.SearchBooks;
-using Library.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Http.Controllers.Books;
