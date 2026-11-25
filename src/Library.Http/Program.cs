@@ -1,27 +1,31 @@
 using Library.Application;
+using Library.Http;
+using Library.Http.Filters;
 using Library.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers();
-builder.Services.AddCors(options =>
-{
-    if (builder.Environment.IsDevelopment())
+builder
+    .Services.AddOpenApi()
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration)
+    .AddApiServices()
+    .AddCors(options =>
     {
-        options.AddDefaultPolicy(policy =>
+        if (builder.Environment.IsDevelopment())
         {
-            policy.AllowAnyOrigin();
-            policy.AllowAnyHeader();
-            policy.AllowAnyMethod();
-        });
-    }
-});
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.AllowAnyOrigin();
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+            });
+        }
+    })
+    .AddControllers(options =>
+    {
+        options.Filters.AddService<PaginationHeadersFilter>();
+    });
 
 var app = builder.Build();
 

@@ -1,8 +1,10 @@
+using Library.Application.Common.Models;
 using Library.Application.Features.Books.Commands.AddBook;
 using Library.Application.Features.Books.Commands.DeleteBook;
 using Library.Application.Features.Books.Dtos;
 using Library.Application.Features.Books.Queries.GetBookById;
 using Library.Application.Features.Books.Queries.SearchBooks;
+using Library.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Http.Controllers.Books;
@@ -17,7 +19,7 @@ public class BooksController(
 ) : ControllerBase
 {
     [HttpGet]
-    public Task<IReadOnlyCollection<BookDto>> SearchAllBooks(
+    public async Task<ActionResult<PagedResult<BookDto>>> SearchAllBooks(
         [FromHeader(Name = "X-Page")] string? page,
         [FromHeader(Name = "X-Page-Size")] string? pageSize,
         [FromQuery(Name = "s")] string? searchTerm,
@@ -25,7 +27,7 @@ public class BooksController(
         CancellationToken cancellationToken
     )
     {
-        return searchBooksQueryHandler.Handle(
+        var pagedResult = await searchBooksQueryHandler.Handle(
             new SearchBooksQuery(
                 string.IsNullOrEmpty(page) ? null : int.Parse(page),
                 string.IsNullOrEmpty(pageSize) ? null : int.Parse(pageSize),
@@ -34,6 +36,9 @@ public class BooksController(
             ),
             cancellationToken
         );
+
+        // Response.Headers.AttachPagedResult(pagedResult);
+        return Ok(pagedResult);
     }
 
     [HttpGet]

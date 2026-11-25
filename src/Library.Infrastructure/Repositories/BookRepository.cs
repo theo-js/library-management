@@ -1,6 +1,8 @@
 using Library.Application.Abstractions.Persistence;
+using Library.Application.Common.Models;
 using Library.Application.Features.Books.Queries.SearchBooks;
 using Library.Domain.Entities;
+using Library.Infrastructure.Extensions;
 using Library.Infrastructure.Persistence;
 using Library.Infrastructure.Persistence.Mappers;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,7 @@ public class BookRepository(AppDbContext dbContext) : IBookRepository
         return bookEntity?.ToDomain() ?? null;
     }
 
-    public async Task<IReadOnlyCollection<Book>> GetAllAsync(
+    public async Task<PagedResult<Book>> GetAllAsync(
         int page,
         int pageSize,
         BookSearchParameters? bookSearchParameters,
@@ -43,11 +45,9 @@ public class BookRepository(AppDbContext dbContext) : IBookRepository
 
         return await query
             .OrderBy(book => book.Id)
-            .Skip(pageSize * (page - 1))
-            .Take(pageSize)
             .Include(book => book.Copies)
             .Select(book => book.ToDomain())
-            .ToListAsync(cancellationToken);
+            .ToPagedResultAsync(page, pageSize, cancellationToken);
     }
 
     public async void Add(Book book)
